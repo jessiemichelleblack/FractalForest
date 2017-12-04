@@ -67,8 +67,8 @@ Material:
     - _Parallax: 0.02
     - _ShakeBending: 0.487
     - _ShakeDisplacement: 1
-    - _ShakeTime: 1
-    - _ShakeWindspeed: 0.471
+    - _ShakeTime: 0.291
+    - _ShakeWindspeed: 0
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 0
