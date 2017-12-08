@@ -60,9 +60,9 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 3
   m_TerrainData: {fileID: 15600000, guid: 07909f99f23ba4d58a695f86ffa8eebe, type: 2}
-  m_TreeDistance: 2000
-  m_TreeBillboardDistance: 50
-  m_TreeCrossFadeLength: 37
+  m_TreeDistance: 1090
+  m_TreeBillboardDistance: 1124
+  m_TreeCrossFadeLength: 110.3
   m_TreeMaximumFullLODCount: 0
   m_DetailObjectDistance: 80
   m_DetailObjectDensity: 1
