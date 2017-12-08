@@ -85,13 +85,15 @@ public class MajorLazers : MonoBehaviour
         }
         else if (Controller.GetPress(SteamVR_Controller.ButtonMask.Trigger))
         {
-            RaycastHit[] hits;
-            hits = Physics.RaycastAll(transform.position, transform.forward, 100.0F);
+            RaycastHit hit;
 
-            hitPoint = hits[0].point;
-            ShowLaser(hits[0]);
-            reticle.SetActive(true);
-            teleportReticleTransform.position = hitPoint + teleportReticleOffset;
+            if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100, defaultLayerMask))
+            {
+                hitPoint = hit.point;
+                ShowLaser(hit);
+                reticle.SetActive(true);
+                teleportReticleTransform.position = hitPoint + teleportReticleOffset;
+            }
         }
         else
         {
