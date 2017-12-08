@@ -27,6 +27,7 @@ public class MajorLazers : MonoBehaviour
     public Vector3 teleportReticleOffset;
 
     public LayerMask teleportMask;
+    public LayerMask defaultLayerMask;
 
     private bool shouldTeleport;
 
