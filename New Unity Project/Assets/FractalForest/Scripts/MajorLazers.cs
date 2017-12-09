@@ -93,6 +93,17 @@ public class MajorLazers : MonoBehaviour
                 ShowLaser(hit);
                 reticle.SetActive(true);
                 teleportReticleTransform.position = hitPoint + teleportReticleOffset;
+
+                // Git the plant object that the laser is hitting
+                GameObject hitPlant = hit.transform.gameObject;
+                AudioSource hitPlantAudio = hitPlant.GetComponent<AudioSource>();
+
+                // Keep the audio from sporadically restarting
+                if (!hitPlantAudio.isPlaying)
+                {
+                    hitPlantAudio.Play();
+                }
+                
             }
         }
         else
