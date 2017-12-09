@@ -93,6 +93,11 @@ public class MajorLazers : MonoBehaviour
                 ShowLaser(hit);
                 reticle.SetActive(true);
                 teleportReticleTransform.position = hitPoint + teleportReticleOffset;
+
+                GameObject hitPlant = hit.transform.gameObject;
+                Debug.Log(hitPlant.transform.name);
+                hitPlant.GetComponent<AudioSource>().Play();
+                
             }
         }
         else
