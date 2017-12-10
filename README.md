@@ -14,7 +14,7 @@ Version 1.0 <br>
 [![Build Status][travis-image]][travis-url]
 [![Downloads Stats][npm-downloads]][npm-url]
 
-![Screenshot][screenshot.png]
+![Screenshot][screenshot]
 
 ## Introduction
 Our VR project goal was to give the user a calming, fun experience with fractal designs and music interaction with nature.
