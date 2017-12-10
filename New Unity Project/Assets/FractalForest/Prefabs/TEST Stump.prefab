@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 54315483084035956}
   - component: {fileID: 64984021395249092}
   m_Layer: 9
-  m_Name: TEST Stump (13)
+  m_Name: TEST Stump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
