@@ -14,7 +14,7 @@ Version 1.0 <br>
 [![Build Status][travis-image]][travis-url]
 [![Downloads Stats][npm-downloads]][npm-url]
 
-![Screenshot][https://github.com/jessalbarian/FractalForest/blob/jessie/screenshot.png]
+![Screenshot](screenshot.png)
 
 ## Introduction
 Our VR project goal was to give the user a calming, fun experience with fractal designs and music interaction with nature.
