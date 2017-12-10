@@ -43,7 +43,7 @@ This section is optional. Can be used to give any other tips and tricks.
 5. Create a new Pull Request
 
 ## Authors
-* Jessie Albarian
+* [Jessie Albarian](https://github.com/jessalbarian)
 * Sophie Brande
 * Juan Vargas-Murillo
 * Guadalupe Avalos
