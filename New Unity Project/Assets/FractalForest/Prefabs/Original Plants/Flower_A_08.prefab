@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33774823313038252}
   - component: {fileID: 23857772343094276}
   m_Layer: 0
-  m_Name: Fllower_A_08
+  m_Name: Flower_A_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

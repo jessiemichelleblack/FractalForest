@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33034488735817182}
   - component: {fileID: 23878578172723484}
   m_Layer: 0
-  m_Name: Fllower_B_02
+  m_Name: Musical_Flower_B_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
