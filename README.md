@@ -55,3 +55,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 * [Nature Starter Kit 2](https://www.assetstore.unity3d.com/en/#!/content/52977)
 * [Toon Forest](https://www.assetstore.unity3d.com/en/#!/content/66124)
+* [Kenney Animal Pack](http://kenney.nl/assets/animal-pac)
