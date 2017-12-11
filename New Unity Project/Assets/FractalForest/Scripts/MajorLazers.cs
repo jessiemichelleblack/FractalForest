@@ -126,12 +126,17 @@ public class MajorLazers : MonoBehaviour
                 AudioSource hitPlantAudio = hitPlant.GetComponent<AudioSource>();
 
                 // Keep the audio from sporadically restarting
+                // Quick fix: Check if hit object has AudioSource
+                if(hitPlantAudio != null){
                 if (!hitPlantAudio.isPlaying)
                 {
                     hitPlantAudio.Play();
                     hitPlant.GetComponent<Renderer>().material = fractalMaterial;
                 }
-                
+              }else{
+                return;
+              }
+
             }
         }
         else
