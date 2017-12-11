@@ -29,6 +29,8 @@ public class MajorLazers : MonoBehaviour
     public LayerMask teleportMask;
     public LayerMask defaultLayerMask;
 
+    public Material fractalMaterial;
+
     public float xBoundMin;
     public float xBoundMax;
 
@@ -127,6 +129,7 @@ public class MajorLazers : MonoBehaviour
                 if (!hitPlantAudio.isPlaying)
                 {
                     hitPlantAudio.Play();
+                    hitPlant.GetComponent<Renderer>().material = fractalMaterial;
                 }
                 
             }
