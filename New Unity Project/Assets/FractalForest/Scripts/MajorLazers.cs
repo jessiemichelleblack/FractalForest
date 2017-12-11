@@ -29,6 +29,14 @@ public class MajorLazers : MonoBehaviour
     public LayerMask teleportMask;
     public LayerMask defaultLayerMask;
 
+    public Material fractalMaterial;
+
+    public float xBoundMin;
+    public float xBoundMax;
+
+    public float zBoundMin;
+    public float zBoundMax;
+
     private bool shouldTeleport;
 
     private SteamVR_Controller.Device Controller
@@ -64,7 +72,26 @@ public class MajorLazers : MonoBehaviour
         reticle.SetActive(false);
         Vector3 difference = cameraRigTransform.position - headTransform.position;
         difference.y = 0;
-        cameraRigTransform.position = hitPoint + difference;
+        Vector3 finalTeleportPoint = hitPoint + difference;
+
+        if (finalTeleportPoint.x < xBoundMin) {
+            finalTeleportPoint.x = xBoundMin;
+        }
+        else if(finalTeleportPoint.x > xBoundMax)
+        {
+            finalTeleportPoint.x = xBoundMax;
+        }
+
+        if(finalTeleportPoint.z < zBoundMin)
+        {
+            finalTeleportPoint.z = zBoundMin;
+        }
+        else if(finalTeleportPoint.z > zBoundMax)
+        {
+            finalTeleportPoint.z = zBoundMax;
+        }
+
+        cameraRigTransform.position = finalTeleportPoint;
     }
 
     // Update is called once per frame
@@ -102,6 +129,7 @@ public class MajorLazers : MonoBehaviour
                 if (!hitPlantAudio.isPlaying)
                 {
                     hitPlantAudio.Play();
+                    hitPlant.GetComponent<Renderer>().material = fractalMaterial;
                 }
                 
             }
