@@ -30,6 +30,7 @@ public class MajorLazers : MonoBehaviour
     public LayerMask defaultLayerMask;
 
     public Material fractalMaterial;
+    public Material mushroomMaterial;
 
     public float xBoundMin;
     public float xBoundMax;
@@ -124,19 +125,18 @@ public class MajorLazers : MonoBehaviour
                 // Git the plant object that the laser is hitting
                 GameObject hitPlant = hit.transform.gameObject;
                 AudioSource hitPlantAudio = hitPlant.GetComponent<AudioSource>();
-
+                  
                 // Keep the audio from sporadically restarting
                 // Quick fix: Check if hit object has AudioSource
                 if(hitPlantAudio != null){
                     if (!hitPlantAudio.isPlaying)
                     {
-                        hitPlantAudio.Play();
+                        hitPlantAudio.Play(88200); //delay by two seconds
                         hitPlant.GetComponent<Renderer>().material = fractalMaterial;
                     }
-
-                    {
-                        hitPlantAudio.Play();
-                        hitPlant.GetComponent<Renderer>().material = fractalMaterial;
+                    else {                      
+                        hitPlantAudio.Stop();
+                       //itPlant.GetComponent<Renderer>().material = mushroomMaterial; // Need to make this
                     }
                 }
                 else{
