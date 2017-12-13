@@ -31,7 +31,7 @@ public class MajorLazers : MonoBehaviour
     public LayerMask defaultLayerMask;
 
     public Material fractalMaterial;
-    public Material stump_mathroom = Resources.Load("stump_mathroom", typeof(Material)) as Material;
+    public Material stump_mathroom;
 
     public float xBoundMin;
     public float xBoundMax;
@@ -58,6 +58,7 @@ public class MajorLazers : MonoBehaviour
         laserTransform = laser.transform;
         reticle = Instantiate(teleportReticlePrefab);
         teleportReticleTransform = reticle.transform;
+        stump_mathroom = Resources.Load("stump_mathroom", typeof(Material)) as Material;
     }
 
     void Awake()
@@ -142,37 +143,36 @@ public class MajorLazers : MonoBehaviour
                         // This should avoid the continuous stop/start issue when holding the trigger on a mushroom object
                         // PROBLEM: Because this is a global script, this stop/start condition enacts when you start or stop any mushroom,
                         // not just a specific one
-                        if (!hold) // this will be false after un-muting the audio
-                        {
-                            if (triggerTime == 0.0f) // song has never been stopped, base case
-                            {
-                                hitPlantAudio.mute = false; // unmute the audio
-                                hitPlant.GetComponent<Renderer>().material = fractalMaterial;
-                                hold = true; // now the music has started
-                            }
+                        //if (!hold) // this will be false after un-muting the audio
+                        //{
+                        //    if (triggerTime == 0.0f) // song has never been stopped, base case
+                        //    {
+                        //        hitPlantAudio.mute = false; // unmute the audio
+                        //        hitPlant.GetComponent<Renderer>().material = fractalMaterial;
+                        //        hold = true; // now the music has started
+                        //    }
 
-                            else if (Time.time - triggerTime <= delayInterval) // the delay time has been exceeded
-                            {
-                                hitPlantAudio.mute = false; // unmute the audio
-                                hitPlant.GetComponent<Renderer>().material = fractalMaterial;
-                                hold = true; // now the music has started
-                            }
-                            else 
-                            {
-                                hold = false; // nothing has changed
-                                return; // still need to wait a few seconds
-                            }
-                        }
-                        else // initial unmute action
-                        {
-                            hitPlantAudio.mute = false; // unmute the audio
-                            triggerTime = Time.time;
-                            hitPlant.GetComponent<Renderer>().material = fractalMaterial;
-                            hold = true; // set a hold
-                        }
-                        
+                        //    else if (Time.time - triggerTime <= delayInterval) // the delay time has been exceeded
+                        //    {
+                        hitPlantAudio.mute = false; // unmute the audio
+                        hitPlant.GetComponent<Renderer>().material = fractalMaterial;
+                        //hold = true; // now the music has started
+                        //    }
+                        //    else 
+                        //    {
+                        //        hold = false; // nothing has changed
+                        //        return; // still need to wait a few seconds
+                        //    }
+                        //}
                     }
-
+                    //else // initial unmute action
+                    //{
+                    //    hitPlantAudio.mute = false; // unmute the audio
+                    //    triggerTime = Time.time;
+                    //    hitPlant.GetComponent<Renderer>().material = fractalMaterial;
+                    //    //hold = true; // set a hold
+                    //}
+                    // }    
                     else // if the audio is currently playing mute the song, start the trigger time here
                     {
                         triggerTime = Time.time;
