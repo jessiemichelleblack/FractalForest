@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class MajorLazers : MonoBehaviour
@@ -30,7 +31,7 @@ public class MajorLazers : MonoBehaviour
     public LayerMask defaultLayerMask;
 
     public Material fractalMaterial;
-    public Material mushroomMaterial;
+    public Material stump_mathroom;
 
     public float xBoundMin;
     public float xBoundMax;
@@ -39,6 +40,8 @@ public class MajorLazers : MonoBehaviour
     public float zBoundMax;
 
     private bool shouldTeleport;
+
+    public Stopwatch userStartedSongTimer = new Stopwatch();
 
     private SteamVR_Controller.Device Controller
     {
@@ -51,6 +54,8 @@ public class MajorLazers : MonoBehaviour
         laserTransform = laser.transform;
         reticle = Instantiate(teleportReticlePrefab);
         teleportReticleTransform = reticle.transform;
+        stump_mathroom = Resources.Load("Toon Forest free set/Mesh/Materials/stump_mathroom", typeof(Material)) as Material;
+    
     }
 
     void Awake()
@@ -96,7 +101,7 @@ public class MajorLazers : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+     void Update()
     {
         if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
         {
@@ -121,27 +126,30 @@ public class MajorLazers : MonoBehaviour
                 ShowLaser(hit);
                 reticle.SetActive(true);
                 teleportReticleTransform.position = hitPoint + teleportReticleOffset;
-
                 // Git the plant object that the laser is hitting
                 GameObject hitPlant = hit.transform.gameObject;
                 AudioSource hitPlantAudio = hitPlant.GetComponent<AudioSource>();
-                  
+
                 // Keep the audio from sporadically restarting
                 // Quick fix: Check if hit object has AudioSource
-                if(hitPlantAudio != null){
-                    if (!hitPlantAudio.isPlaying)
+                if (hitPlantAudio != null)
+                {
+                    if (hitPlantAudio.mute)
                     {
-                        hitPlantAudio.Play(88200); //delay by two seconds
+                        hitPlantAudio.mute = false; // unmute the audio
                         hitPlant.GetComponent<Renderer>().material = fractalMaterial;
+                        userStartedSongTimer.Start();
                     }
-                    else {                      
-                        hitPlantAudio.Stop();
-                       //itPlant.GetComponent<Renderer>().material = mushroomMaterial; // Need to make this
+                    else
+                    {   
+                        hitPlantAudio.mute = true; // muter the audio this is an easy work around to avoid timing everything
+                         hitPlant.GetComponent<Renderer>().material = stump_mathroom; // Need to make this
                     }
                 }
-                else{
-                return;
-              }
+                else
+                {
+                    return;
+                }
 
             }
         }

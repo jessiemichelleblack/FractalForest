@@ -7,7 +7,9 @@ public class MusicController : MonoBehaviour {
 	//The [SerializeField] tag specifies that this variable is viewable 
 	// in Unity's inspector. I prefer not to use public variables if 
 	//I can get away with using private ones.
-	public AudioClip audioLoop; 
+	public AudioClip audioLoop;
+    bool m_Play;
+    bool m_ToggleChange;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +22,7 @@ public class MusicController : MonoBehaviour {
 
 		// We set the audio clip to play as your background music.
 		GetComponent<AudioSource>().clip = audioLoop;
+        m_Play = true;
 
 	}
 	/*********************/
