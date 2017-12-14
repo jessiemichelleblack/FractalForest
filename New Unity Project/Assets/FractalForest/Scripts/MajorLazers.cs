@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class MajorLazers : MonoBehaviour
@@ -30,6 +31,7 @@ public class MajorLazers : MonoBehaviour
     public LayerMask defaultLayerMask;
 
     public Material fractalMaterial;
+    public Material stump_mathroom;
 
     public float xBoundMin;
     public float xBoundMax;
@@ -38,6 +40,12 @@ public class MajorLazers : MonoBehaviour
     public float zBoundMax;
 
     private bool shouldTeleport;
+
+    public float delayInterval = 2.0f;
+    public float triggerTime;
+
+    public bool hold = true;
+
 
     private SteamVR_Controller.Device Controller
     {
@@ -50,6 +58,7 @@ public class MajorLazers : MonoBehaviour
         laserTransform = laser.transform;
         reticle = Instantiate(teleportReticlePrefab);
         teleportReticleTransform = reticle.transform;
+        stump_mathroom = Resources.Load("stump_mathroom", typeof(Material)) as Material;
     }
 
     void Awake()
@@ -95,7 +104,7 @@ public class MajorLazers : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+     void Update()
     {
         if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
         {
@@ -120,22 +129,62 @@ public class MajorLazers : MonoBehaviour
                 ShowLaser(hit);
                 reticle.SetActive(true);
                 teleportReticleTransform.position = hitPoint + teleportReticleOffset;
-
                 // Git the plant object that the laser is hitting
                 GameObject hitPlant = hit.transform.gameObject;
                 AudioSource hitPlantAudio = hitPlant.GetComponent<AudioSource>();
 
-                // Keep the audio from sporadically restarting
                 // Quick fix: Check if hit object has AudioSource
-                if(hitPlantAudio != null){
-                if (!hitPlantAudio.isPlaying)
+                if (hitPlantAudio != null)
                 {
-                    hitPlantAudio.Play();
-                    hitPlant.GetComponent<Renderer>().material = fractalMaterial;
+                    if (hitPlantAudio.mute)
+                    {
+                        // What we want: 
+                        // Audio can not be started unless it has been 2 seconds after the user last stopped music
+                        // This should avoid the continuous stop/start issue when holding the trigger on a mushroom object
+                        // PROBLEM: Because this is a global script, this stop/start condition enacts when you start or stop any mushroom,
+                        // not just a specific one
+                        //if (!hold) // this will be false after un-muting the audio
+                        //{
+                        //    if (triggerTime == 0.0f) // song has never been stopped, base case
+                        //    {
+                        //        hitPlantAudio.mute = false; // unmute the audio
+                        //        hitPlant.GetComponent<Renderer>().material = fractalMaterial;
+                        //        hold = true; // now the music has started
+                        //    }
+
+                        //    else if (Time.time - triggerTime <= delayInterval) // the delay time has been exceeded
+                        //    {
+                        hitPlantAudio.mute = false; // unmute the audio
+                        hitPlant.GetComponent<Renderer>().material = fractalMaterial;
+                        //hold = true; // now the music has started
+                        //    }
+                        //    else 
+                        //    {
+                        //        hold = false; // nothing has changed
+                        //        return; // still need to wait a few seconds
+                        //    }
+                        //}
+                    }
+                    //else // initial unmute action
+                    //{
+                    //    hitPlantAudio.mute = false; // unmute the audio
+                    //    triggerTime = Time.time;
+                    //    hitPlant.GetComponent<Renderer>().material = fractalMaterial;
+                    //    //hold = true; // set a hold
+                    //}
+                    // }    
+                    else // if the audio is currently playing mute the song, start the trigger time here
+                    {
+                        triggerTime = Time.time;
+                        hitPlantAudio.mute = true; // muting the audio this is an easy work around rather than timing the start of each song everything
+                        hitPlant.GetComponent<Renderer>().material = stump_mathroom; // This no work :(
+                        hold = false;
+                    }
                 }
-              }else{
-                return;
-              }
+                else
+                {
+                    return;
+                }
 
             }
         }
