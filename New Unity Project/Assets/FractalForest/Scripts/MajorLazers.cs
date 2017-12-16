@@ -46,6 +46,8 @@ public class MajorLazers : MonoBehaviour
 
     public bool hold = true;
 
+    private GameObject lastHitPlant;
+
 
     private SteamVR_Controller.Device Controller
     {
@@ -131,61 +133,43 @@ public class MajorLazers : MonoBehaviour
                 teleportReticleTransform.position = hitPoint + teleportReticleOffset;
                 // Git the plant object that the laser is hitting
                 GameObject hitPlant = hit.transform.gameObject;
-                AudioSource hitPlantAudio = hitPlant.GetComponent<AudioSource>();
 
-                // Quick fix: Check if hit object has AudioSource
-                if (hitPlantAudio != null)
+                if (hitPlant != lastHitPlant)
                 {
-                    if (hitPlantAudio.mute)
-                    {
-                        // What we want: 
-                        // Audio can not be started unless it has been 2 seconds after the user last stopped music
-                        // This should avoid the continuous stop/start issue when holding the trigger on a mushroom object
-                        // PROBLEM: Because this is a global script, this stop/start condition enacts when you start or stop any mushroom,
-                        // not just a specific one
-                        //if (!hold) // this will be false after un-muting the audio
-                        //{
-                        //    if (triggerTime == 0.0f) // song has never been stopped, base case
-                        //    {
-                        //        hitPlantAudio.mute = false; // unmute the audio
-                        //        hitPlant.GetComponent<Renderer>().material = fractalMaterial;
-                        //        hold = true; // now the music has started
-                        //    }
+                    lastHitPlant = hitPlant;
 
-                        //    else if (Time.time - triggerTime <= delayInterval) // the delay time has been exceeded
-                        //    {
-                        hitPlantAudio.mute = false; // unmute the audio
-                        hitPlant.GetComponent<Renderer>().material = fractalMaterial;
-                        //hold = true; // now the music has started
-                        //    }
-                        //    else 
-                        //    {
-                        //        hold = false; // nothing has changed
-                        //        return; // still need to wait a few seconds
-                        //    }
-                        //}
-                    }
-                    //else // initial unmute action
-                    //{
-                    //    hitPlantAudio.mute = false; // unmute the audio
-                    //    triggerTime = Time.time;
-                    //    hitPlant.GetComponent<Renderer>().material = fractalMaterial;
-                    //    //hold = true; // set a hold
-                    //}
-                    // }    
-                    else // if the audio is currently playing mute the song, start the trigger time here
+                    AudioSource hitPlantAudio = hitPlant.GetComponent<AudioSource>();
+
+                    // Quick fix: Check if hit object has AudioSource
+                    if (hitPlantAudio != null)
                     {
-                        triggerTime = Time.time;
-                        hitPlantAudio.mute = true; // muting the audio this is an easy work around rather than timing the start of each song everything
-                        hitPlant.GetComponent<Renderer>().material = stump_mathroom; // This no work :(
-                        hold = false;
+                        if (hitPlantAudio.mute)
+                        {
+                            // What we want: 
+                            // Audio can not be started unless it has been 2 seconds after the user last stopped music
+                            // This should avoid the continuous stop/start issue when holding the trigger on a mushroom object
+                            // PROBLEM: Because this is a global script, this stop/start condition enacts when you start or stop any mushroom,
+                            // not just a specific one
+
+                            hitPlantAudio.mute = false; // unmute the audio
+                            hitPlant.GetComponent<Renderer>().material = fractalMaterial;
+
+                        }
+
+                        // if the audio is currently playing mute the song, start the trigger time here
+                        else
+                        {
+                            triggerTime = Time.time;
+                            hitPlantAudio.mute = true; // muting the audio this is an easy work around rather than timing the start of each song everything
+                            hitPlant.GetComponent<Renderer>().material = stump_mathroom; // This no work :(
+                            hold = false;
+                        }
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
-                else
-                {
-                    return;
-                }
-
             }
         }
         else
